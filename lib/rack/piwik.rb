@@ -3,12 +3,10 @@ require 'erb'
 
 module Rack
 
-  class GoogleAnalytics
+  class Piwik
     
-    DEFAULT = { :async => true }
-
     def initialize(app, options = {})
-      raise ArgumentError, "Tracker must be set!" unless options[:tracker] and !options[:tracker].empty?
+      raise ArgumentError, "piwik_url must be present" unless options[:piwik_url] and !options[:piwik_url].empty?
       @app, @options = app, DEFAULT.merge(options)
     end
 
@@ -27,15 +25,9 @@ module Rack
     def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(response)
-      file = @options[:async] ? 'async' : 'sync'
+      file = 'async' 
       @template ||= ::ERB.new ::File.read ::File.expand_path("../templates/#{file}.erb",__FILE__)
-      if @options[:async]
-        response.gsub(%r{</head>}, @template.result(binding) + "</head>")
-      else
-        response.gsub(%r{</body>}, @template.result(binding) + "</body>")
-      end
+      response.gsub(%r{</head>}, @template.result(binding) + "</head>")
     end
-
   end
-
 end
