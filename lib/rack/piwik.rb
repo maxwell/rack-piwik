@@ -4,7 +4,8 @@ require 'erb'
 module Rack
 
   class Piwik
-    
+    DEFAULT = {} 
+
     def initialize(app, options = {})
       raise ArgumentError, "piwik_url must be present" unless options[:piwik_url] and !options[:piwik_url].empty?
       @app, @options = app, DEFAULT.merge(options)
