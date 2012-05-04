@@ -14,9 +14,9 @@ class Test::Unit::TestCase
     main_app = lambda { |env|
       request = Rack::Request.new(env)
       case request.path
-      when '/' then [200,{ 'Content-Type' => 'application/html' },['<head>Hello world</head>']]
-      when '/test.xml' then [200,{'Content-Type' => 'application/xml'}, ['Xml here']]
-      when '/bob' then [200,{'Content-Type' => 'application/html'} ,['<body>bob here</body>']]
+      when '/head_only' then [200,{ 'Content-Type' => 'application/html' },['<head>head only</head>']]
+      when '/arbitrary.xml' then [200,{'Content-Type' => 'application/xml'}, ['xml only']]
+      when '/body_only' then [200,{'Content-Type' => 'application/html'} ,['<body>body only</body>']]
       else [404,'Nothing here']
       end
     }

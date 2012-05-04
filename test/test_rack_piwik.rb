@@ -5,26 +5,29 @@ class TestRackPiwik < Test::Unit::TestCase
   context "Asynchronous" do
     context "default" do
       setup { mock_app :async => true, :tracker => 'somebody', :piwik_url => 'piwik.example.org', :piwik_id => '123' }
-      should "show asynchronous tracker" do
-        get "/"
+      should "add tracker if body element is present" do
+        get "/body_only"
         assert_match %r{https://piwik.example.org/}, last_response.body
         assert_match %r{123\);}, last_response.body
-        assert_match %r{</script>\n<!-- End Piwik Code --></head>}, last_response.body
-        assert_equal "538", last_response.headers['Content-Length']
+        assert_match %r{</noscript>\n<!-- End Piwik Code --></body>}, last_response.body
+        assert_equal "650", last_response.headers['Content-Length']
       end
 
-      setup { mock_app :async => true, :multiple => true, :tracker => 'gonna', :piwik_url => 'piwik.example.org', :piwik_id => '123'  }
-      should "not add tracker to none html content-type" do
-        get "/test.xml"
-        assert_no_match %r{Piwik}, last_response.body
-        assert_match %r{Xml here}, last_response.body
+      should "omit 404 tracking for other responses with other status" do
+        get "/body_only"
+        assert_no_match %r{.setDocumentTitle\('404/URL}, last_response.body
       end
 
-      setup { mock_app :async => true, :multiple => true, :tracker => 'gonna', :piwik_url => 'piwik.example.org', :piwik_id => '123'  }
-      should "not add without </head>" do
-        get "/bob"
+      should "omit addition of tracking code for non-html content" do
+        get "/arbitrary.xml"
         assert_no_match %r{Piwik}, last_response.body
-        assert_match %r{bob here}, last_response.body
+        assert_match %r{xml only}, last_response.body
+      end
+
+      should "omit addition of tracking code if </body> tag is missing" do
+        get "/head_only"
+        assert_no_match %r{Piwik}, last_response.body
+        assert_match %r{head only}, last_response.body
       end
     end
 
