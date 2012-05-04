@@ -3,7 +3,7 @@ require 'test/unit'
 require 'shoulda'
 require 'rack'
 require 'rack/test'
-require File.expand_path('../../lib/rack/google-analytics',__FILE__)
+require File.expand_path('../../lib/rack/piwik',__FILE__)
 
 class Test::Unit::TestCase
   include Rack::Test::Methods
@@ -22,7 +22,7 @@ class Test::Unit::TestCase
     }
 
     builder = Rack::Builder.new
-    builder.use Rack::GoogleAnalytics, options
+    builder.use Rack::Piwik, options
     builder.run main_app
     @app = builder.to_app
   end
