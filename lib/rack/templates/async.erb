@@ -1,12 +1,21 @@
 <!-- Piwik -->
 <script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://<%= @options[:piwik_url]%>/" : "http://<%= @options[:piwik_url]%>/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    var pkBaseURL = (("https:" == document.location.protocol) ? "https://<%= @options[:piwik_url]%>/" : "http://<%= @options[:piwik_url]%>/");
+    document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
 </script><script type="text/javascript">
 try {
-  var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", <%= @options[:piwik_id]%>);
-  piwikTracker.trackPageView();
-  piwikTracker.enableLinkTracking();
+    var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", <%= @options[:piwik_id]%>);
+
+    <%# If this is a 404 page, provide additional information to Piwik %>
+    <% if @status.equal?(404) %>
+        piwikTracker.setDocumentTitle('404/URL = ' +
+                String(document.location.pathname + document.location.search).replace(/\//g,"%2f") +
+                '/From = ' + String(document.referrer).replace(/\//g,"%2f"));
+    <% end %>
+
+    piwikTracker.trackPageView();
+    piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script>
+<noscript><img src="http://<%= @options[:piwik_url]%>/piwik.php?idsite=<%= @options[:piwik_id]%>" alt="" /></noscript>
 <!-- End Piwik Code -->

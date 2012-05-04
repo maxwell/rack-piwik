@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Maxwell Salzberg"]
   s.email       = ["maxwell@joindiaspora.com"]
-  s.homepage    = "https://github.com/leehambley/rack-google-analytics"
+  s.homepage    = "https://github.com/maxwell/rack-piwik"
   s.summary     = "Rack middleware to inject the Piwik tracking code into outgoing responses. Adapted from rack-google-analytics"
   s.description = "Simple Rack middleware for implementing piwik Analytics racking in your Ruby-Rack based project."
 
