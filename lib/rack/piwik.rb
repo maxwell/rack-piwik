@@ -28,7 +28,7 @@ module Rack
     def inject(response)
       file = 'async' 
       @template ||= ::ERB.new ::File.read ::File.expand_path("../templates/#{file}.erb",__FILE__)
-      response.gsub(%r{</head>}, @template.result(binding) + "</head>")
+      response.gsub(%r{</body>}, @template.result(binding) + "</body>")
     end
   end
 end
