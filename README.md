@@ -19,8 +19,8 @@ Simple Rack middleware to help injecting the Piwik tracking code into the footer
 
 #### Rails
 
-    ## environment.rb:
-    config.gem 'rack-piwik', :lib => 'rack/piwik
+    ## application.rb:
+    config.gem 'rack-piwik', :lib => 'rack/piwik'
     config.middleware.use Rack::Piwik, :piwik_url => '<url of your piwik site here>', :piwik_id => '<your piwik id here>'
 
 ## Thread Safety
