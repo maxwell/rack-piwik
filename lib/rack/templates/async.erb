@@ -9,4 +9,5 @@ try {
   piwikTracker.enableLinkTracking();
 } catch( err ) {}
 </script>
+<noscript><img src="http://<%= @options[:piwik_url]%>/piwik.php?idsite=<%= @options[:piwik_id]%>" alt="" /></noscript>
 <!-- End Piwik Code -->
