@@ -8,7 +8,7 @@ module Rack
 
     def initialize(app, options = {})
       raise ArgumentError, "piwik_url must be present" unless options[:piwik_url] and !options[:piwik_url].empty?
-      raise ArgumentError, "piwik_id must be present" unless options[:piwik_id] and !options[:piwik_id].empty?
+      raise ArgumentError, "piwik_id must be present" unless options[:piwik_id] and !options[:piwik_id].to_s.empty?
       @app, @options = app, DEFAULT.merge(options)
     end
 
