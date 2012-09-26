@@ -29,8 +29,17 @@ class TestRackPiwik < Test::Unit::TestCase
         assert_no_match %r{Piwik}, last_response.body
         assert_match %r{head only}, last_response.body
       end
+      
     end
-
+    
+    context "with a number as piwik id" do
+      setup { mock_app :async => true, :tracker => 'somebody', :piwik_url => 'piwik.example.org', :piwik_id => 123 }
+      should "not raise an exception" do
+        assert_nothing_raised do
+          get "/body_only"
+        end
+      end
+    end
   end
 
 =begin
