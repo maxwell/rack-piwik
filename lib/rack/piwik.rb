@@ -27,7 +27,7 @@ module Rack
     def html?; @headers['Content-Type'] =~ /html/; end
 
     def inject(response)
-      file = 'async' 
+      file = 'sync'
       @template ||= ::ERB.new ::File.read ::File.expand_path("../templates/#{file}.erb",__FILE__)
       response.gsub(%r{</body>}, @template.result(binding) + "</body>")
     end
