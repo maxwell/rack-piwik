@@ -29,6 +29,7 @@ This middleware *should* be thread safe. Although my experience in such areas is
 
 ## Change Log
 
+* 0.2.0  Use asynchronous JS tracking code by default
 * 0.1.0  Initial Release
 
 

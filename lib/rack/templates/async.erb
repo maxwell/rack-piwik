@@ -20,9 +20,8 @@
         g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
     })();
 </script>
-<!-- End Piwik Code -->
 
-<!-- Piwik Image Tracker -->
+<!-- Image Tracker -->
 <noscript>
   <%# TODO set protocol (HTTP or HTTPS) based on the current protocol according to rack logic %>
   <img src="http://<%= @options[:piwik_url] %>/piwik.php?idsite=<%= @options[:piwik_id] %>&amp;rec=1" style="border:0" alt="" />
