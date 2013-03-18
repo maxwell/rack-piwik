@@ -7,10 +7,10 @@ class TestRackPiwik < Test::Unit::TestCase
       setup { mock_app :async => true, :tracker => 'somebody', :piwik_url => 'piwik.example.org', :piwik_id => '123' }
       should "add tracker if body element is present" do
         get "/body_only"
-        assert_match %r{https://piwik.example.org/}, last_response.body
-        assert_match %r{123\);}, last_response.body
-        assert_match %r{</noscript>\n<!-- End Piwik Code --></body>}, last_response.body
-        assert_equal "650", last_response.headers['Content-Length']
+        assert_match 'http://piwik.example.org/', last_response.body
+        assert_match '_paq.push(["setSiteId", "123"]);', last_response.body
+        assert_match %r{</noscript>\n<!-- End Piwik --></body>}, last_response.body
+        assert_equal 787, last_response.headers['Content-Length'].to_i
       end
 
       should "omit 404 tracking for other responses with other status" do
@@ -44,7 +44,16 @@ class TestRackPiwik < Test::Unit::TestCase
 
 =begin
   context "Synchronous" do
-    setup { mock_app :async => false, :tracker => 'whatthe', :piwik_url => 'piwik.example.org', :piwik_id => '123'  }
+    setup { mock_app :async => false, :tracker => 'somebody', :piwik_url => 'piwik.example.org', :piwik_id => '123' }
+
+    should "add tracker if body element is present" do
+      get "/body_only"
+      assert_match %r{https://piwik.example.org/}, last_response.body
+      assert_match %r{123\);}, last_response.body
+      assert_match %r{</noscript>\n<!-- End Piwik --></body>}, last_response.body
+      assert_equal "650", last_response.headers['Content-Length']
+    end
+
     should "show non-asynchronous tracker" do
       get "/bob"
       assert_match %r{.getTracker}, last_response.body
