@@ -4,11 +4,14 @@ require 'erb'
 module Rack
 
   class Piwik
-    DEFAULT = {} 
+    DEFAULT = {
+        :disable_cookies => false
+    }
 
     def initialize(app, options = {})
       raise ArgumentError, "piwik_url must be present" unless options[:piwik_url] and !options[:piwik_url].empty?
       raise ArgumentError, "piwik_id must be present" unless options[:piwik_id] and !options[:piwik_id].to_s.empty?
+
       @app, @options = app, DEFAULT.merge(options)
     end
 

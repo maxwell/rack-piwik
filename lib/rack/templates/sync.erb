@@ -13,6 +13,7 @@ try {
                 '/From = ' + String(document.referrer).replace(/\//g,"%2f"));
     <% end %>
 
+    <%="_paq.push(['disableCookies']);" if @options[:disable_cookies] %>
     piwikTracker.trackPageView();
     piwikTracker.enableLinkTracking();
 } catch( err ) {}

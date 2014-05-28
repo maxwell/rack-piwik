@@ -10,7 +10,7 @@ class TestRackPiwik < Test::Unit::TestCase
         assert_match 'http://piwik.example.org/', last_response.body
         assert_match '_paq.push(["setSiteId", "123"]);', last_response.body
         assert_match %r{</noscript>\n<!-- End Piwik --></body>}, last_response.body
-        assert_equal 787, last_response.headers['Content-Length'].to_i
+        assert_equal 792, last_response.headers['Content-Length'].to_i
       end
 
       should "omit 404 tracking for other responses with other status" do
@@ -29,7 +29,20 @@ class TestRackPiwik < Test::Unit::TestCase
         assert_no_match %r{Piwik}, last_response.body
         assert_match %r{head only}, last_response.body
       end
-      
+
+      should "not disable piwik cookies" do
+        get "/body_only"
+        assert_no_match %r{\_paq\.push\(\[\'disableCookies\'\]\)\;}, last_response.body
+      end
+    end
+
+    context "disable cookies is true" do
+      setup { mock_app :async => true, :tracker => 'somebody', :piwik_url => 'piwik.example.org', :piwik_id => '123', :disable_cookies => true }
+
+      should "disable piwik cookies" do
+        get "/body_only"
+        assert_match %r{\_paq\.push\(\[\'disableCookies\'\]\)\;}, last_response.body
+      end
     end
     
     context "with a number as piwik id" do

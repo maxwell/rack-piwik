@@ -9,6 +9,7 @@
                 '/From = ' + String(document.referrer).replace(/\//g,"%2f")]);
     <% end %>
 
+    <%="_paq.push(['disableCookies']);" if @options[:disable_cookies] %>
     _paq.push(["trackPageView"]);
     _paq.push(["enableLinkTracking"]);
 
