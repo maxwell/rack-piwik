@@ -32,7 +32,7 @@ class TestRackPiwik < Test::Unit::TestCase
 
       should "not disable piwik cookies" do
         get "/body_only"
-        assert_no_match %r{\_paq\.push\(\[\'disableCookies\'\]\)\;}, last_response.body
+        assert_no_match %r{disableCookies}, last_response.body
       end
     end
 
